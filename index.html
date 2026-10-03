@@ -1,96 +1,203 @@
-<html><head>
-    <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
-    <title>0:19:39</title>
-    <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/sstatic/search/pc/2016/css/search1_0602.css">
-    <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/sstatic/search/pc/2016/css/search2_0602.css">
-    <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/sstatic/keypage/outside/scui/timer/css/cs_timer_200428.css ">
-    <script type="text/javascript" src="https://ssl.pstatic.net/sstatic/sdyn.js?f=/au/pc/_nx/jindo_1.5.3_160324.js+/search/js/nhn.Component.js+/search/js/jindo.Component.1.1.0.js+/search/js/jindo.component.library_120927.js+/search/js/flashObject_121025.js+/au/pc/search_option/nhn.search.search_option_160316.js+/au/pc/naver_autocomplete/nhn.common.atcmp.naver_web_160518.js+/au/s/pc/_common/jindo/jindo.Rolling_140526.js+/au/pc/_common/nhn.common_160603.js"></script>
-    <style type="text/css">
-        body {font-family:굴림, Gulim, AppleGothic, sans-serif;overflow:hidden}
-        img {border:none;}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카운트다운 타이머</title>
+    <style>
+        /* 1. 전체 화면 정중앙 배치 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* 중앙 정렬을 위한 컨테이너 */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* 2. 타이머 위 큰 제목 스타일 */
+        #title-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            min-height: 4.5rem; /* 글씨가 없을 때도 공간 유지 */
+            color: #e0e0e0;
+            word-break: break-all;
+        }
+
+        /* 타이머 숫자 스타일 */
+        #timer {
+            font-size: 10rem;
+            font-weight: bold;
+            transition: color 0.5s ease;
+            line-height: 1;
+            margin-bottom: 40px;
+        }
+
+        /* 3. 하단 설정 영역 스타일 (고정 위치) */
+        .controls-container {
+            position: absolute;
+            bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* 입력창 및 버튼 공통 스타일 */
+        input, button {
+            padding: 12px 18px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        input[type="text"] {
+            width: 250px;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        input[type="number"] {
+            width: 90px;
+            text-align: center;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #2ECC71;
+            color: white;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* [상태별 색상 및 애니메이션] */
+        .green { color: #2ECC71; }
+        .yellow { color: #F1C40F; }
+        .red-blink {
+            color: #E74C3C;
+            animation: blink 1s steps(2, start) infinite;
+        }
+
+        @keyframes blink {
+            to { visibility: hidden; }
+        }
     </style>
 </head>
 <body>
-<div class="cs_timer_popup" id="_cs_timer">  <!-- @Ajax : id="_cs_timer" 추가  -->
-    <div class="popup_header">
-        <h1><a href="javascript:;"><span class="blind">암송 페스티벌</span></a></h1>
+
+    <!-- 중앙 타이머 및 제목 표시 영역 -->
+    <div class="main-container">
+        <div id="title-display">타이머 제목을 입력하세요</div>
+        <div id="timer" class="green">00:00</div>
     </div>
-    <div class="cs_timer" style="margin-bottom:0">
-        <h4 class="blind">타이머 설정</h4>
-        <div class="timer_area">
-            <div class="time_set">
-                <!-- [D]130506 숫자 스프라이트에서 텍스트로 변경, class명 선택하는 시간,분,초가 변해야합니다. -->
-                <div class="hour_area">
-                    <span class="roll_bg">
-                        <input type="number" value="0" maxlength="1" title="십단위 시간" class="num">
-                        <input type="number" value="0" maxlength="1" title="일단위 시간" class="num">
-                    </span>
-                    <a href="javascript:;" class="btn_up">1시간 추가</a>
-                    <a href="javascript:;" class="btn_down">1시간 내림</a>
-                    <span class="txt">선택하신 시간은  00시간</span>
-                </div>
-                <div class="minute_area">
-                    <span class="roll_bg">
-                        <input type="number" value="0" maxlength="1" title="십단위 분" class="num">
-                        <input type="number" value="0" maxlength="1" title="일단위 분" class="num">
-                    </span>
-                    <a href="javascript:;" class="btn_up">1분올림</a>
-                    <a href="javascript:;" class="btn_down">1분내림</a>
-                    <span class="txt txt2">선택하신 분은 00분</span>
-                </div>
-                <div class="second_area">
-                    <span class="roll_bg">
-                        <input type="number" value="0" maxlength="1" title="십단위 초" class="num">
-                        <input type="number" value="0" maxlength="1" title="일단위 초" class="num">
-                    </span>
-                    <a href="javascript:;" class="btn_up">1초올림</a>
-                    <a href="javascript:;" class="btn_down">1초내림</a>
-                    <span class="txt txt3">선택하신 초는 00초</span>
-                </div>
-            </div>
-            <!-- [D] 스타트버튼과 리셋버튼 비활성화 clas="off추가" -->
-            <div class="btn_area">
-                <button type="button" class="_run btn_restart"><span class="blind">START</span></button>
-                <!--button type="button" class="btn_stop"  style="display:none"><span class="blind">STOP</span></button>
-                <button type="button" class="btn_restart"><span class="blind">RESTART</span></button -->
-                <button type="button" class="btn_reset"><span class="blind">RESET</span></button>
-            </div>
-        </div>
-        <!-- [D] 2013/5/6 마우스hover로 변경,마우스 hover시 선택으로 대체텍스트 변경되야합니다. -->
-        <div class="time_help">
-            <span class="line"></span>
-            <h4 class="blind">타이머 시간 설정</h4>
-            <ul>
-                <li><a href="javascript:;"><span class="blind">선택</span><span class="slct sp_n1">10초</span></a></li>
-                <li><a href="javascript:;"><span class="blind">선택안됨</span><span class="slct sp_n2">1분</span></a></li>
-                <li><a href="javascript:;"><span class="blind">선택안됨</span><span class="slct sp_n3">5분</span></a></li>
-                <li><a href="javascript:;"><span class="blind">선택</span><span class="slct sp_n4">10분</span></a></li>
-                <li><a href="javascript:;"><span class="blind">선택안됨</span><span class="slct sp_n5">30분</span></a></li>
-                <li><a href="javascript:;"><span class="blind">선택</span><span class="slct sp_n6">1시간</span></a></li>
-            </ul>
-        </div>
-        <!-- [D]  pop_up  비활성화  style="display:none" -->
-        <div class="pop_up" style="display:none">
-            <h4 class="blind">타이머 종료 알림 팝업</h4>
-            <p>설정하신 타이머가 종료되었습니다.</p>
-            <span>20분 </span>
-            <a href="javascript:;" class="btn_conform">확인</a>
-            <a href="javascript:;" class="btn_close">닫음</a>
+
+    <!-- 하단 글씨 및 시간 입력 설정 영역 -->
+    <div class="controls-container">
+        <!-- 제목 입력 창 -->
+        <input type="text" id="titleInput" placeholder="여기에 타이머 제목 입력..." oninput="updateTitle(this.value)">
+        
+        <!-- 시간 설정 및 시작 버튼 -->
+        <div class="input-group">
+            <input type="number" id="minutesInput" placeholder="분" min="0" value="2">
+            <input type="number" id="secondsInput" placeholder="초" min="0" max="59" value="0">
+            <button onclick="startTimer()">시작</button>
         </div>
     </div>
-    <div class="btn_time">
-        <span class="line2"></span><a href="javascript:;" class="btn_timeclose"><span class="blind">타이머알림 페이지 닫기</span></a>
-    </div>
-</div>
-<script type="text/javascript" src="https://ssl.pstatic.net/sstatic/au/s/pc/_search/timer/nhn.search.timer_140211.js" charset="utf-8"></script>
 
-<script type="text/javascript">
-    (function(){
-        new nhn.search.timer.Timer({
-            isPopup : true
-        });
-    })();
-</script>
+    <script>
+        let countdown;
+        let timeLeft;
 
+        // 아래쪽 입력창의 글씨를 실시간으로 위쪽 대형 제목에 반영하는 함수
+        function updateTitle(text) {
+            const titleDisplay = document.getElementById('title-display');
+            if (text.trim() === "") {
+                titleDisplay.textContent = "타이머 제목을 입력하세요";
+            } else {
+                titleDisplay.textContent = text;
+            }
+        }
 
-</body></html>
+        function startTimer() {
+            clearInterval(countdown);
+            
+            // 분과 초를 각각 지정받아 합산
+            const minutes = parseInt(document.getElementById('minutesInput').value) || 0;
+            const seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+            
+            timeLeft = (minutes * 60) + seconds;
+
+            if (timeLeft <= 0) {
+                alert("올바른 시간을 입력해주세요!");
+                return;
+            }
+
+            const timerDisplay = document.getElementById('timer');
+
+            function updateTimer() {
+                let currentMin = Math.floor(timeLeft / 60);
+                let currentSec = timeLeft % 60;
+
+                currentMin = currentMin < 10 ? '0' + currentMin : currentMin;
+                currentSec = currentSec < 10 ? '0' + currentSec : currentSec;
+
+                timerDisplay.textContent = `${currentMin}:${currentSec}`;
+
+                // 조건별 색상 및 깜박임 스위칭
+                if (timeLeft > 60) {
+                    timerDisplay.className = 'green';
+                } else if (timeLeft <= 60 && timeLeft > 10) {
+                    timerDisplay.className = 'yellow';
+                } else if (timeLeft <= 10 && timeLeft > 0) {
+                    timerDisplay.className = 'red-blink';
+                } else if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    timerDisplay.textContent = "00:00";
+                    timerDisplay.className = 'red-blink';
+                    alert("시간이 다 되었습니다!");
+                    return;
+                }
+
+                timeLeft--;
+            }
+
+            updateTimer();
+            countdown = setInterval(updateTimer, 1000);
+        }
+    </script>
+</body>
+</html>
