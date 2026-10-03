@@ -1,0 +1,96 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+    <title>0:19:39</title>
+    <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/sstatic/search/pc/2016/css/search1_0602.css">
+    <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/sstatic/search/pc/2016/css/search2_0602.css">
+    <link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/sstatic/keypage/outside/scui/timer/css/cs_timer_200428.css ">
+    <script type="text/javascript" src="https://ssl.pstatic.net/sstatic/sdyn.js?f=/au/pc/_nx/jindo_1.5.3_160324.js+/search/js/nhn.Component.js+/search/js/jindo.Component.1.1.0.js+/search/js/jindo.component.library_120927.js+/search/js/flashObject_121025.js+/au/pc/search_option/nhn.search.search_option_160316.js+/au/pc/naver_autocomplete/nhn.common.atcmp.naver_web_160518.js+/au/s/pc/_common/jindo/jindo.Rolling_140526.js+/au/pc/_common/nhn.common_160603.js"></script>
+    <style type="text/css">
+        body {font-family:굴림, Gulim, AppleGothic, sans-serif;overflow:hidden}
+        img {border:none;}
+    </style>
+</head>
+<body>
+<div class="cs_timer_popup" id="_cs_timer">  <!-- @Ajax : id="_cs_timer" 추가  -->
+    <div class="popup_header">
+        <h1><a href="javascript:;"><span class="blind">암송 페스티벌</span></a></h1>
+    </div>
+    <div class="cs_timer" style="margin-bottom:0">
+        <h4 class="blind">타이머 설정</h4>
+        <div class="timer_area">
+            <div class="time_set">
+                <!-- [D]130506 숫자 스프라이트에서 텍스트로 변경, class명 선택하는 시간,분,초가 변해야합니다. -->
+                <div class="hour_area">
+                    <span class="roll_bg">
+                        <input type="number" value="0" maxlength="1" title="십단위 시간" class="num">
+                        <input type="number" value="0" maxlength="1" title="일단위 시간" class="num">
+                    </span>
+                    <a href="javascript:;" class="btn_up">1시간 추가</a>
+                    <a href="javascript:;" class="btn_down">1시간 내림</a>
+                    <span class="txt">선택하신 시간은  00시간</span>
+                </div>
+                <div class="minute_area">
+                    <span class="roll_bg">
+                        <input type="number" value="0" maxlength="1" title="십단위 분" class="num">
+                        <input type="number" value="0" maxlength="1" title="일단위 분" class="num">
+                    </span>
+                    <a href="javascript:;" class="btn_up">1분올림</a>
+                    <a href="javascript:;" class="btn_down">1분내림</a>
+                    <span class="txt txt2">선택하신 분은 00분</span>
+                </div>
+                <div class="second_area">
+                    <span class="roll_bg">
+                        <input type="number" value="0" maxlength="1" title="십단위 초" class="num">
+                        <input type="number" value="0" maxlength="1" title="일단위 초" class="num">
+                    </span>
+                    <a href="javascript:;" class="btn_up">1초올림</a>
+                    <a href="javascript:;" class="btn_down">1초내림</a>
+                    <span class="txt txt3">선택하신 초는 00초</span>
+                </div>
+            </div>
+            <!-- [D] 스타트버튼과 리셋버튼 비활성화 clas="off추가" -->
+            <div class="btn_area">
+                <button type="button" class="_run btn_restart"><span class="blind">START</span></button>
+                <!--button type="button" class="btn_stop"  style="display:none"><span class="blind">STOP</span></button>
+                <button type="button" class="btn_restart"><span class="blind">RESTART</span></button -->
+                <button type="button" class="btn_reset"><span class="blind">RESET</span></button>
+            </div>
+        </div>
+        <!-- [D] 2013/5/6 마우스hover로 변경,마우스 hover시 선택으로 대체텍스트 변경되야합니다. -->
+        <div class="time_help">
+            <span class="line"></span>
+            <h4 class="blind">타이머 시간 설정</h4>
+            <ul>
+                <li><a href="javascript:;"><span class="blind">선택</span><span class="slct sp_n1">10초</span></a></li>
+                <li><a href="javascript:;"><span class="blind">선택안됨</span><span class="slct sp_n2">1분</span></a></li>
+                <li><a href="javascript:;"><span class="blind">선택안됨</span><span class="slct sp_n3">5분</span></a></li>
+                <li><a href="javascript:;"><span class="blind">선택</span><span class="slct sp_n4">10분</span></a></li>
+                <li><a href="javascript:;"><span class="blind">선택안됨</span><span class="slct sp_n5">30분</span></a></li>
+                <li><a href="javascript:;"><span class="blind">선택</span><span class="slct sp_n6">1시간</span></a></li>
+            </ul>
+        </div>
+        <!-- [D]  pop_up  비활성화  style="display:none" -->
+        <div class="pop_up" style="display:none">
+            <h4 class="blind">타이머 종료 알림 팝업</h4>
+            <p>설정하신 타이머가 종료되었습니다.</p>
+            <span>20분 </span>
+            <a href="javascript:;" class="btn_conform">확인</a>
+            <a href="javascript:;" class="btn_close">닫음</a>
+        </div>
+    </div>
+    <div class="btn_time">
+        <span class="line2"></span><a href="javascript:;" class="btn_timeclose"><span class="blind">타이머알림 페이지 닫기</span></a>
+    </div>
+</div>
+<script type="text/javascript" src="https://ssl.pstatic.net/sstatic/au/s/pc/_search/timer/nhn.search.timer_140211.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    (function(){
+        new nhn.search.timer.Timer({
+            isPopup : true
+        });
+    })();
+</script>
+
+
+</body></html>
