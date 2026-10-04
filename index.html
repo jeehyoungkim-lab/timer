@@ -14,7 +14,7 @@
             padding: 0;
         }
 
-        /* 1. 첫 번째 섹션: 오직 타이머와 제목만 꽉 차게 표시 (스크롤 전) */
+        /* 1. 첫 번째 섹션: 타이머, 제목, 시작 버튼 배치 (전체 화면) */
         .timer-screen {
             display: flex;
             flex-direction: column;
@@ -24,13 +24,14 @@
             text-align: center;
             box-sizing: border-box;
             padding: 20px;
+            position: relative;
         }
 
-        /* 타이머 위 큰 제목 스타일 (크기는 js로 동적 조절) */
+        /* 타이머 위 큰 제목 스타일 */
         #title-display {
             font-size: 3rem; /* 기본값 */
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #e0e0e0;
             word-break: break-all;
             max-width: 90vw;
@@ -43,6 +44,46 @@
             font-weight: bold;
             transition: color 0.5s ease;
             line-height: 1;
+            margin-bottom: 40px;
+        }
+
+        /* 💡 위쪽 화면으로 이동한 시작 버튼 스타일 */
+        .start-btn {
+            padding: 16px 40px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border-radius: 30px; /* 둥근 버튼 형태 */
+            border: none;
+            background-color: #2ECC71;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .start-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .start-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* 아래로 스크롤 하라는 힌트 문구 */
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            color: #555;
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         /* 2. 두 번째 섹션: 아래로 스크롤 해야 보이는 설정 영역 */
@@ -111,43 +152,6 @@
             text-align: center;
         }
 
-        /* 시작 버튼 */
-        button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border-radius: 8px;
-            border: none;
-            background-color: #2ECC71;
-            color: white;
-            font-weight: bold;
-            width: 100%;
-            max-width: 400px;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-        button:active {
-            transform: scale(0.98);
-        }
-
-        /* 안내 문구 */
-        .scroll-hint {
-            position: absolute;
-            bottom: 20px;
-            color: #666;
-            font-size: 0.9rem;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
         /* 상태별 색상 및 애니메이션 */
         .green { color: #2ECC71; }
         .yellow { color: #F1C40F; }
@@ -163,13 +167,16 @@
 </head>
 <body>
 
-    <!-- [1번 세션] 메인 타이머 화면 (접속 시 전체 화면으로 꽉 참) -->
+    <!-- [1번 세션] 메인 타이머 화면 (시작 버튼 포함) -->
     <div class="timer-screen">
         <div id="title-display">타이머 제목을 입력하세요</div>
         <div id="timer" class="green">00:00</div>
         
+        <!-- 💡 위쪽으로 배치된 타이머 시작 버튼 -->
+        <button class="start-btn" onclick="startTimer()">시작</button>
+        
         <!-- 아래로 스크롤 하라는 힌트 문구 -->
-        <div class="scroll-hint">▼ 설정을 하려면 아래로 스크롤 하세요</div>
+        <div class="scroll-hint">▼ 타이머 세부 설정은 아래로 스크롤 하세요</div>
     </div>
 
     <!-- [2번 세션] 하단 설정 영역 (스크롤해서 내려야 보임) -->
@@ -198,9 +205,6 @@
                 <input type="number" id="secondsInput" placeholder="초" min="0" max="59" value="0">
             </div>
         </div>
-
-        <!-- 시작 버튼 -->
-        <button onclick="startTimer()">타이머 시작</button>
 
     </div>
 
@@ -234,12 +238,9 @@
             timeLeft = (minutes * 60) + seconds;
 
             if (timeLeft <= 0) {
-                alert("올바른 시간을 입력해주세요!");
+                alert("아래쪽 설정에서 올바른 시간을 지정해주세요!");
                 return;
             }
-
-            // 시작 버튼 누르면 자동으로 타이머 화면(맨 위)으로 스크롤 이동
-            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             const timerDisplay = document.getElementById('timer');
 
