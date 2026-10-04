@@ -176,7 +176,7 @@
         <button class="start-btn" onclick="startTimer()">시작</button>
         
         <!-- 아래로 스크롤 하라는 힌트 문구 -->
-        <div class="scroll-hint">▼ 타이머 세부 설정은 아래로 스크롤 하세요</div>
+        <div class="scroll-hint">▼ </div>
     </div>
 
     <!-- [2번 세션] 하단 설정 영역 (스크롤해서 내려야 보임) -->
@@ -185,15 +185,15 @@
         <!-- 제목 입력 -->
         <div class="setting-box">
             <label for="titleInput">타이머 제목</label>
-            <input type="text" id="titleInput" placeholder="여기에 타이머 제목 입력..." oninput="updateTitle(this.value)">
+            <input type="text" id="titleInput" placeholder="암송 페스티벌" oninput="updateTitle(this.value)">
         </div>
 
         <!-- 제목 글자 크기 지정 (슬라이더) -->
         <div class="setting-box">
             <label for="sizeInput">제목 글자 크기</label>
             <div class="size-control">
-                <input type="range" id="sizeInput" min="1.5" max="7" step="0.1" value="3" oninput="updateFontSize(this.value)">
-                <span class="size-value" id="sizeValue">3.0 rem</span>
+                <input type="range" id="sizeInput" min="1.5" max="10" step="0.1" value="6" oninput="updateFontSize(this.value)">
+                <span class="size-value" id="sizeValue">6.0 rem</span>
             </div>
         </div>
         
@@ -201,8 +201,9 @@
         <div class="setting-box">
             <label>시간 설정</label>
             <div class="time-inputs">
-                <input type="number" id="minutesInput" placeholder="분" min="0" value="2">
-                <input type="number" id="secondsInput" placeholder="초" min="0" max="59" value="0">
+                <input type="number" id="minutesInput" placeholder="분" min="0" value="25" oninput="syncTimeDisplay()">
+                <input type="number" id="secondsInput" placeholder="초" min="0" max="59" value="0" oninput="syncTimeDisplay()">
+
             </div>
         </div>
 
