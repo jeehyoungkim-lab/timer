@@ -245,44 +245,70 @@
     <script>
         let countdown;
         let timeLeft;
-
-        // 실시간 제목 업데이트
+    
+        // 1. 실시간 제목 업데이트
         function updateTitle(text) {
             const titleDisplay = document.getElementById('title-display');
-            if (text.trim() === "") {
+            if (!text || text.trim() === "") {
                 titleDisplay.textContent = "타이머 제목을 입력하세요";
             } else {
                 titleDisplay.textContent = text;
             }
         }
-
-        // 실시간 제목 크기 업데이트
+    
+        // 2. 실시간 제목 크기 업데이트
         function updateFontSize(value) {
             document.getElementById('title-display').style.fontSize = `${value}rem`;
             document.getElementById('sizeValue').textContent = `${parseFloat(value).toFixed(1)} rem`;
         }
-        // 💡 [준비] 버튼을 눌렀을 때 작동하는 강제 반영 및 화면 이동 함수
+    
+        // 3. 하단 입력창 시간을 위쪽 타이머에 미리 보여주는 함수 (누락되었던 부분 추가)
+        function syncTimeDisplay() {
+            if (countdown && timeLeft > 0) return; // 타이머가 실행 중이면 동기화 안 함
+    
+            let minutes = parseInt(document.getElementById('minutesInput').value) || 0;
+            let seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+    
+            let displayMin = minutes < 10 ? '0' + minutes : minutes;
+            let displaySec = seconds < 10 ? '0' + seconds : seconds;
+    
+            const timerDisplay = document.getElementById('timer');
+            timerDisplay.textContent = `${displayMin}:${displaySec}`;
+            
+            // 미리보기 상태에서도 시간에 맞춰 색상 변경
+            let totalSec = (minutes * 60) + seconds;
+            if (totalSec > 60) {
+                timerDisplay.className = 'green';
+            } else if (totalSec <= 60 && totalSec > 10) {
+                timerDisplay.className = 'yellow';
+            } else {
+                timerDisplay.className = 'red-blink';
+            }
+        }
+    
+        // 4. [준비] 버튼을 눌렀을 때 작동하는 강제 반영 및 화면 이동 함수 (이름 불일치 오류 수정)
         function applySettings() {
             // 진행 중인 타이머가 있다면 정지
             clearInterval(countdown);
-        
-            // 하단 입력값들 가져오기
-            const titleVal = document.getElementById('titleInput').value;
-            const sizeVal = document.getElementById('sizeInput').value;
-        
-            // 상단 타이머 화면에 강제로 주입 (기존에 만들어둔 함수들을 재활용합니다)
-            syncTitle(titleVal);
-            syncFontSize(sizeVal);
+    
+            // 하단 입력값들 안전하게 가져오기
+            const titleInputEl = document.getElementById('titleInput');
+            const sizeInputEl = document.getElementById('sizeInput');
+    
+            // 입력창이 비어있을 때 placeholder("암송 페스티벌")를 기본값으로 쓰기 위한 안전장치
+            const titleVal = titleInputEl.value.trim() !== "" ? titleInputEl.value : titleInputEl.placeholder;
+            const sizeVal = sizeInputEl ? sizeInputEl.value : "7";
+    
+            // 기존에 올바르게 정의된 함수 이름을 호출하도록 수정
+            updateTitle(titleVal);
+            updateFontSize(sizeVal);
             syncTimeDisplay();
-        
+    
             // 부드럽게 메인 타이머 화면(맨 위)으로 스크롤 이동
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
-        // 페이지 최초 로딩 시 설정 초기화 자동 실행
-        applySettings();
-
-        // 타이머 작동 로직
+    
+        // 5. 타이머 작동 로직
         function startTimer() {
             clearInterval(countdown);
             
@@ -290,23 +316,23 @@
             const seconds = parseInt(document.getElementById('secondsInput').value) || 0;
             
             timeLeft = (minutes * 60) + seconds;
-
+    
             if (timeLeft <= 0) {
                 alert("아래쪽 설정에서 올바른 시간을 지정해주세요!");
                 return;
             }
-
+    
             const timerDisplay = document.getElementById('timer');
-
+    
             function updateTimer() {
                 let currentMin = Math.floor(timeLeft / 60);
                 let currentSec = timeLeft % 60;
-
+    
                 currentMin = currentMin < 10 ? '0' + currentMin : currentMin;
                 currentSec = currentSec < 10 ? '0' + currentSec : currentSec;
-
+    
                 timerDisplay.textContent = `${currentMin}:${currentSec}`;
-
+    
                 if (timeLeft > 60) {
                     timerDisplay.className = 'green';
                 } else if (timeLeft <= 60 && timeLeft > 10) {
@@ -320,13 +346,17 @@
                     alert("시간이 다 되었습니다!");
                     return;
                 }
-
+    
                 timeLeft--;
             }
-
+    
             updateTimer();
             countdown = setInterval(updateTimer, 1000);
         }
+    
+        // 페이지 최초 로딩 시 초기값 설정 반영
+        applySettings();
     </script>
+
 </body>
 </html>
