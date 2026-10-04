@@ -56,29 +56,49 @@
             line-height: 1;
             margin-bottom: 40px;
         }
-
-        /* 💡 위쪽 화면으로 이동한 시작 버튼 스타일 */
-        .start-btn {
+        
+        /* 💡 [수정후 추가] 두 버튼을 가로로 나란히 정렬하는 상자 */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* 💡 [수정후 추가] 준비/시작 버튼의 공통 크기 및 폰트 스타일 */
+        .nav-btn {
             padding: 16px 40px;
             font-size: 1.4rem;
             cursor: pointer;
             border-radius: 30px; /* 둥근 버튼 형태 */
             border: none;
-            background-color: #2ECC71;
-            color: white;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
             transition: all 0.2s ease;
         }
-
+        .nav-btn:active {
+            transform: translateY(1px); /* 클릭했을 때 살짝 들어가는 효과 */
+        }
+        
+        /* 💡 [수정후 추가] 준비 버튼 전용 스타일 (오렌지색) */
+        .ready-btn {
+            background-color: #F39C12;
+            color: white;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+        .ready-btn:hover {
+            background-color: #D35400;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+        
+        /* 💡 [수정후 변경] 시작 버튼 전용 스타일 (초록색 - 공통 스타일을 제외하고 색상만 남김) */
+        .start-btn {
+            background-color: #2ECC71;
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
         .start-btn:hover {
             background-color: #27ae60;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
-        }
-
-        .start-btn:active {
-            transform: translateY(1px);
         }
 
         /* 아래로 스크롤 하라는 힌트 문구 */
@@ -181,9 +201,12 @@
     <div class="timer-screen">
         <div id="title-display">암송 페스티벌</div>
         <div id="timer" class="green">25:00</div>
-        
-        <!-- 💡 위쪽으로 배치된 타이머 시작 버튼 -->
-        <button class="start-btn" onclick="startTimer()">시작</button>
+        <!-- 💡 기존 시작 버튼 위치를 찾아서 아래처럼 감싸고 준비 버튼을 추가하세요 -->
+            <div class="btn-group">
+                <button class="nav-btn ready-btn" onclick="applySettings()">준비</button>
+                <button class="nav-btn start-btn" onclick="startTimer()">시작</button>
+            </div>
+
         
         <!-- 아래로 스크롤 하라는 힌트 문구 -->
         <div class="scroll-hint">▼ </div>
@@ -238,6 +261,26 @@
             document.getElementById('title-display').style.fontSize = `${value}rem`;
             document.getElementById('sizeValue').textContent = `${parseFloat(value).toFixed(1)} rem`;
         }
+        // 💡 [준비] 버튼을 눌렀을 때 작동하는 강제 반영 및 화면 이동 함수
+        function applySettings() {
+            // 진행 중인 타이머가 있다면 정지
+            clearInterval(countdown);
+        
+            // 하단 입력값들 가져오기
+            const titleVal = document.getElementById('titleInput').value;
+            const sizeVal = document.getElementById('sizeInput').value;
+        
+            // 상단 타이머 화면에 강제로 주입 (기존에 만들어둔 함수들을 재활용합니다)
+            syncTitle(titleVal);
+            syncFontSize(sizeVal);
+            syncTimeDisplay();
+        
+            // 부드럽게 메인 타이머 화면(맨 위)으로 스크롤 이동
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 페이지 최초 로딩 시 설정 초기화 자동 실행
+        applySettings();
 
         // 타이머 작동 로직
         function startTimer() {
