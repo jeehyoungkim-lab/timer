@@ -12,7 +12,17 @@
             color: #ffffff;
             margin: 0;
             padding: 0;
+        
+            /* 💡 스크롤 바 숨기기 기능 추가 */
+            -ms-overflow-style: none; /* 인터넷 익스플로러, 엣지 */
+            scrollbar-width: none;    /* 파이어폭스 */
         }
+        
+        /* 크롬, 사파리, 오페라, 브레이브 브라우저용 스크롤 바 숨기기 */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
 
         /* 1. 첫 번째 섹션: 타이머, 제목, 시작 버튼 배치 (전체 화면) */
         .timer-screen {
